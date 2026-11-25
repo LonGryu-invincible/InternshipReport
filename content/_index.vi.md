@@ -19,7 +19,7 @@ chapter: false
 
 &emsp; **Ngành:** Trí Tuệ Nhân Tạo
 
-&emsp; **Lớp:** ...
+&emsp; **Lớp:** CPAWS
 
 &emsp; **Công ty thực tập:** Công ty TNHH Amazon Web Services Vietnam
 
