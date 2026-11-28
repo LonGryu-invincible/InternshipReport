@@ -12,7 +12,7 @@ pre: " <b> 1. </b> "
 
 **Week 2:** [Hybrid DNS, VPC Peering & Dịch vụ Compute (EC2)](1.2-week2/)
 
-**Week 3:** [EC2 Nâng cao, Lưu trữ (Storage), Bảo mật (Security) & Sự kiện AWS](1.3-week3/)
+**Week 3:** [EC2 Nâng cao, Lưu trữ (Storage), Bảo mật (Security) & AWS Cloud and AI Day](1.3-week3/)
 
 **Week 4:** [Cơ sở dữ liệu, S3 Hosting & Auto Scaling](1.4-week4/)
 
