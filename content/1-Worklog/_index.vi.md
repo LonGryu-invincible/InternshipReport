@@ -8,7 +8,7 @@ pre: " <b> 1. </b> "
 
 **Trong trang này**, em sẽ giới thiệu chi tiết về Nhật ký công việc của mình. Nội dung ghi nhận quá trình thực tập đến ngày nộp Workshop: từ cách thức em tiếp cận và hoàn thành các nhiệm vụ, thời lượng cụ thể của chương trình, cho đến những công việc và kỹ năng thực tế mà em đã tích lũy được trong suốt khoảng thời gian vừa qua:
 
-**Week 1:** [Quản lý truy cập (IAM), VPC & Kết nối Site-to-Site VPN](1.1-week1/)
+**Week 1:** [Kiến thức nền tảng AWS, tài khoản, IAM & VPC/VPN](1.1-week1/)
 
 **Week 2:** [Hybrid DNS, VPC Peering & Dịch vụ Compute (EC2)](1.2-week2/)
 
