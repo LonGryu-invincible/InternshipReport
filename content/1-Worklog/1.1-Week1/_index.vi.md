@@ -1,33 +1,32 @@
 ---
 title: "Worklog Tuần 1"
-date: 2026-09-07
+date: 2026-09-14
 weight: 1
 chapter: false
 pre: " <b> 1.1. </b> "
 ---
 
 ### MỤC TIÊU TRONG WEEK 1:
-- Bước đầu khám phá, tìm hiểu về tài khoản AWS
-- Học một số thuật ngữ, khái niệm cơ bản trong các kiến trúc AWS
+- Hiểu và thực hành quản lý truy cập người dùng an toàn với AWS IAM.
+- Nắm vững kiến trúc mạng Amazon VPC và các lớp bảo mật mạng (Security Groups, NACL).
+- Triển khai kết nối Hybrid Cloud thông qua AWS Site-to-Site VPN.
+- Hệ thống hóa kiến thức mạng AWS thông qua Lab IAM/VPC và xử lý lỗi kết nối VPN.
 
 ### CÁC ĐẦU VIỆC CỦA WEEK 1:
 
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Tài liệu tham khảo |
 |:---:|---|:---:|:---:|---|
-| **2** | - Đọc và tìm hiểu kĩ quy định - nội quy chương trình<br>- Take note các hướng dẫn, lưu ý trong quá trình thực<br>- Review trước nội dung chương trình trong 3 tháng tới | 07/09/2026 | 07/09/2026 | [https://github.com/AWS-First-Cloud-Journey/README](https://github.com/AWS-First-Cloud-Journey/README)<br>[https://cloudjourney.awsfcaj.com/vi/](https://cloudjourney.awsfcaj.com/vi/)<br>[https://app.notion.com/p/Group-description-FPTU-3dcdf829a730804d973ae9f241bb7636](https://app.notion.com/p/Group-description-FPTU-3dcdf829a730804d973ae9f241bb7636) |
-| **3** | - Học cách tạo Workshop AWS:<br>+ Cài đặt và làm quen với Hugo, Markdown<br>+ Thực hành tạo workshop trên VS Code với template workshop mẫu<br>- Làm quen với draw.io, thực hành vẽ kiến trúc AWS trên draw.io | 08/09/2026 | 08/09/2026 | [YouTube: Workshop Tutorial](https://www.youtube.com/watch?v=mXRqgMr_97U&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=3)<br>[YouTube: Draw.io](https://youtu.be/l8isyDe-GwY?si=pTGxnXF2JjRsQQ9d) |
-| **4** | - Học Module 01: Kiến Thức Cơ Bản về AWS<br>+ 01-01: Giới thiệu điện toán đám mây<br>+ 01-02: AWS tạo sự khác biệt<br>+ 01-03: Hành trình lên mây<br>+ 01-04: Hạ tầng AWS<br>+ 01-05: Công cụ quản lý AWS<br>+ 01-06: Tối ưu hóa chi phí AWS | 09/09/2026 | 09/09/2026 | [01-01](https://youtu.be/HxYZAK1coOI?si=jjnELazBeYEfdM1F)<br>[01-02](https://youtu.be/IK59Zdd1poE?si=LDfrBcNv5eFbZiSJ)<br>[01-03](https://youtu.be/HSzrWGqo3ME?si=4n9BduuTloVbKh_N)<br>[01-04](https://youtu.be/pjr5a-HYAjI?si=483iokKCfILf4dkJ)<br>[01-05](https://youtu.be/2PQYqH_HkXw?si=KPWS0CQYXpd1uXNa)<br>[01-06](https://youtu.be/IY61YlmXQe8?si=dPbFYhzzeu4Cd2A8) |
-| **5** | - Thực hành Lab 1: Thiết lập Tài Khoản AWS<br>+ Tạo tài khoản AWS đầu tiên<br>+ Thiết lập MFA cho tài khoản Root<br>+ Tạo Admin Group và Admin User<br>+ Hỗ trợ xác thực tài khoản<br>+ Khám phá AWS Management Console<br>+ Tạo và Quản Lý Các Trường Hợp Hỗ Trợ trong AWS<br>- Thực hành Lab 2: Quản lý chi phí với AWS Budget<br>+ Tạo Budget<br>+ Tạo Cost Budget<br>+ Tạo Usage Budget<br>+ Tạo RI Budget<br>+ Tạo Savings Plans Budget<br>+ Dọn Dẹp Tài Nguyên<br>- Thực hành Lab 3: Yêu cầu Hỗ trợ từ AWS Support<br>+ Các gói hỗ trợ của AWS<br>+ Cách truy cập AWS Support<br>+ Quản lý Yêu cầu Hỗ trợ | 10/09/2026 | 10/09/2026 | [Lab 1 Video 1](https://www.youtube.com/watch?v=waR5S_lljrk&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=11&pp=iAQB)<br>[Lab 1 Video 2](https://www.youtube.com/watch?v=1dG5xutGbr4&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=12&pp=iAQB)<br>[Lab 1 Video 3](https://www.youtube.com/watch?v=b9pK1oG534Q&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=13&pp=iAQB)<br>[Lab 1 Video 4](https://www.youtube.com/watch?v=69iKhwI7k2Y&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=14&pp=iAQB)<br>[Lab 1 Video 5](https://www.youtube.com/watch?v=_a09nLVw6Sg&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=15&pp=iAQB)<br>[Lab 1 Video 6](https://www.youtube.com/watch?v=sd_KCcZOou0&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=16&pp=iAQB)<br>[Lab 1 Video 7](https://www.youtube.com/watch?v=kkcdRBRnxl4&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=17&pp=iAQB)<br>[Lab 2 Video 1](https://www.youtube.com/watch?v=aPQynt3CfYc&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=18&pp=iAQB)<br>[Lab 2 Video 2](https://www.youtube.com/watch?v=NoF8eEIEA6M&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=19&pp=iAQB)<br>[Lab 2 Video 3](https://www.youtube.com/watch?v=KeZi7eOLpOA&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=20&pp=iAQB)<br>[Lab 2 Video 4](https://www.youtube.com/watch?v=BAEh-_RzmNg&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=22&pp=iAQB)<br>[Lab 3 Video 1](https://www.youtube.com/watch?v=haafDPugAnE&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=23&pp=iAQB)<br>[Lab 3 Video 2](https://www.youtube.com/watch?v=ThJBaQ3DEBs&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=24&pp=iAQB) |
-| **6** | - Học Module 02: AWS VPC và Bảo Mật<br>+ 02-01: AWS Virtual Private Cloud (VPC)<br>+ 02-02: Bảo mật VPC<br>+ 02-03: VPN, DirectConnect, Load Balancer | 11/09/2026 | 11/09/2026 | [02-01](https://www.youtube.com/watch?v=O9Ac_vGHquM&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=25)<br>[02-02](https://www.youtube.com/watch?v=BPuD1l2hEQ4&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=26)<br>[02-03](https://www.youtube.com/watch?v=CXU8D3kyxIc&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=27) |
+| **2** | **- Thực hành Lab 4: Quản trị quyền truy cập với AWS Identity and Access Management (IAM)**<br>+ IAM User và IAM Group<br>+ IAM Role<br>+ Chuyển đổi Role<br>**- Thực hành Lab 5: Bắt đầu với Amazon Virtual Private Cloud (VPC) và AWS Site-to-Site VPN**<br>+ Giới thiệu Amazon VPC:<br>* Subnets<br>* Route Table<br>* Internet Gateway<br>* NAT Gateway<br>+ Network Security với Security Groups và Network ACLs:<br>* Security groups<br>* Network ACLs<br>* VPC Resource Map | 14/09/2026 | 14/09/2026 | [Lab 4 Guide](https://000002.awsfcaj.com/vi/)<br>[Lab 5 Intro](https://000003.awsfcaj.com/vi/1-introduce/)<br>[Lab 5 Firewall](https://000003.awsfcaj.com/vi/2-firewallinvpc/) |
+| **3** | **- Tiếp tục thực hành Lab 5:**<br>+ Chuẩn bị Môi trường:<br>* Tạo VPC<br>* Tạo Subnet<br>* Tạo Internet Gateway<br>* Tạo Route Table<br>* Tạo Security Group<br>* Kích hoạt VPC Flow Logs<br>+ Triển khai Amazon EC2 Instance<br>* Tạo EC2 Instances<br>* Kiểm thử Phương thức Kết nối<br>* Tạo Multi-AZ NAT Gateway<br>* Sử dụng Reachability Analyzer<br>* Cấu hình EIC Endpoint<br>* AWS Systems Manager Session Manager<br>* CloudWatch Monitoring & Alerting | 15/09/2026 | 15/09/2026 | [Lab 5 Prerequisite](https://000003.awsfcaj.com/vi/3-prerequisite/)<br>[Lab 5 Create EC2](https://000003.awsfcaj.com/vi/4-createec2server/) |
+| **4** | **- Tiếp tục thực hành Lab 5:**<br>+ Thiết lập AWS Site-to-Site VPN:<br>* Tạo môi trường VPN<br>Tạo VPC cho VPN<br>Tạo EC2 Instance<br>* Cấu hình kết nối VPN<br>Tạo Virtual Private Gateway<br>Tạo Customer Gateway<br>Tạo kết nối VPN<br>Cấu hình Customer Gateway<br>Tùy chỉnh AWS VPN Tunnel<br>Cấu hình VPN Nâng cao | 16/09/2026 | 16/09/2026 | [Lab 5 VPN](https://000003.awsfcaj.com/vi/5-vpnsitetosite/) |
+| **5** | **- Tổng hợp ghi chú Lab 4 và Lab 5**<br>+ Vẽ lại sơ đồ VPC (Subnet, Route Table, IGW, NAT Gateway) và luồng Site-to-Site VPN trên draw.io<br>+ Ôn lại khác biệt giữa Security Group và Network ACL | 17/09/2026 | 17/09/2026 | [Lab 5 VPN](https://000003.awsfcaj.com/vi/5-vpnsitetosite/) |
+| **6** | - Tổng kết Lab 5: kiểm tra route table, security group và kết nối VPN; rà soát sơ đồ mạng và ghi chú xử lý lỗi. | 18/09/2026 | 18/09/2026 | [Lab 5 VPN](https://000003.awsfcaj.com/vi/5-vpnsitetosite/) |
 
 ### THÀNH TỰU ĐẠT ĐƯỢC TRONG WEEK 1:
 
-1. Nắm vững nội quy, quy định và định hướng chương trình trong 3 tháng tới.
-2. Làm chủ công cụ tạo workshop AWS (Hugo, Markdown, VS Code) và biết cách vẽ kiến trúc AWS với draw.io.
-3. Hoàn thành Module 01: Kiến thức cơ bản về AWS, nắm được khái niệm Cloud Computing, hạ tầng toàn cầu của AWS, công cụ quản lý, tối ưu chi phí.
-4. Thực hành thành công các Lab cơ bản:
-    - Thiết lập và bảo mật tài khoản AWS (MFA, Admin User/Group).
-    - Quản lý chi phí với AWS Budgets (Cost, Usage, RI, Savings Plans).
-    - Thực hành yêu cầu hỗ trợ từ AWS Support.
-5. Hoàn thành Module 02: AWS VPC & Bảo mật, nắm vững kiến thức VPC, bảo mật mạng, VPN, DirectConnect và Load Balancer.
+1. Hoàn thành Lab 4, thành thạo việc tạo IAM User, Group và Role để phân quyền truy cập hợp lý.
+2. Xây dựng thành công hạ tầng mạng VPC với đầy đủ các thành phần: Subnet, Route Table, IGW, NAT Gateway.
+3. Cấu hình bảo mật mạng nhiều lớp sử dụng Security Groups và Network ACLs.
+4. Triển khai và giám sát EC2 Instance, cấu hình truy cập an toàn qua Session Manager và EIC Endpoint.
+5. Thiết lập thành công kết nối AWS Site-to-Site VPN để kết nối giữa AWS và môi trường giả lập On-premise.
 
