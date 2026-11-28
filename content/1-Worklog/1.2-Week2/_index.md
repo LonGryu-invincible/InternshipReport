@@ -7,9 +7,9 @@ pre: " <b> 1.2. </b> "
 ---
 
 ### OBJECTIVES IN WEEK 2:
-- Master VPN troubleshooting and extend Site-to-Site connectivity with Transit Gateway.
+- Develop familiarity with VPN troubleshooting and extend Site-to-Site connectivity with Transit Gateway.
 - Understand and implement Hybrid DNS with Route 53 Resolver to resolve domain names between on-premises and AWS.
-- Master multi-VPC connectivity models (VPC Peering and Transit Gateway).
+- Develop familiarity with multi-VPC connectivity models (VPC Peering and Transit Gateway).
 - Consolidate in-depth knowledge of Compute services (EC2, AMI, EBS, Auto Scaling).
 - Participate in the early CPAWS topic exploration during the week.
 
@@ -26,8 +26,8 @@ pre: " <b> 1.2. </b> "
 ### ACHIEVEMENTS IN WEEK 2:
 
 1. Completed advanced Lab 5: learned VPN troubleshooting and configured VPN with Transit Gateway (strongSwan).
-2. Successfully deployed a Hybrid DNS architecture (Lab 6), configuring Inbound/Outbound Endpoints for two-way name resolution (AWS <-> on-prem).
+2. Successfully deployed a Hybrid DNS architecture (Lab 6), configuring Inbound/Outbound Endpoints for two-way name resolution (AWS ↔ on-premises).
 3. Built and connected VPC networks with VPC Peering (Lab 7) and AWS Transit Gateway (Lab 8).
-4. Mastered Module 03 on Compute: EC2 instance types, EBS volume types and Auto Scaling for performance and cost optimization.
-5. Joined the CPAWS team and explored candidate forecasting topics, focusing on data availability and evaluation requirements.
+4. Developed familiarity with Module 03 on Compute: EC2 instance types, EBS volume types and Auto Scaling for performance and cost optimization.
+5. Participated in the early team discussions and explored candidate forecasting topics, focusing on data availability and evaluation requirements.
 
