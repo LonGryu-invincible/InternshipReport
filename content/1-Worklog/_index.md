@@ -12,7 +12,7 @@ pre: " <b> 1. </b> "
 
 **Week 2:** [Hybrid DNS, VPC Peering & Compute Services (EC2)](1.2-week2/)
 
-**Week 3:** [Advanced EC2, Storage, Security & AWS Events](1.3-week3/)
+**Week 3:** [Advanced EC2, Storage, Security & AWS Cloud and AI Day](1.3-week3/)
 
 **Week 4:** [Databases, S3 Hosting & Auto Scaling](1.4-week4/)
 
