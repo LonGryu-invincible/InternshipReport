@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 6. </b> "
 ---
 
-During the **First Cloud AI Journey (FCAJ)** program, I worked on **CPAWS, an AWS-based commodity forecasting system**, primarily in **Modeling & Evaluation**. My responsibilities extended beyond checking final model results: I contributed to problem formulation, forecasting experiments, evaluation design, and the verification of research evidence.
+During the **First Cloud AI Journey (FCAJ)** program, I worked on **CPAWS, an AWS-based commodity forecasting system**, primarily in **Modeling & Evaluation**, with an additional responsibility for **Cost Estimation & Optimization** during the final reporting phase. My responsibilities extended beyond checking final model results: I contributed to problem formulation, forecasting experiments, evaluation design, and the verification of research evidence.
 
 At an early stage, I **proposed using log returns as the forecasting target instead of predicting absolute price levels directly**. I also helped review the specification of forecasts over 1–7 trading sessions, the predictive quantiles, and the probability of a price increase, so that the outputs could be interpreted and evaluated consistently. These were contributions within my technical area, not a claim that I led the entire project or implemented every component.
 
@@ -61,7 +61,15 @@ I reviewed the **test2020** plan and runner, including valid-sample selection, s
 
 In reporting the findings, I distinguished statistically supported results from cases where the evidence was insufficient, and documented the limitations of the data and methodology. The official test was intended for evaluation and reporting, not for retuning the models or automatically promoting a new champion.
 
-**6. Responsibility, Independent Learning, and Teamwork**
+**6. AWS Cost Estimation and Optimization Analysis**
+
+During November 23–25, 2026, I personally prepared the post-deployment cost estimate and bilingual Cost Estimation & Optimization report for CPAWS. I reviewed AWS Console, Cost Explorer, and CloudWatch usage data, translated observed requests, storage, data transfer, and model token usage into monthly workload assumptions, and used AWS Pricing Calculator to estimate costs across **13 service groups**, including **34 distinct usage lines** in the Billing Console Calculator.
+
+For the existing Singapore environment under a low-traffic production scenario, the displayed estimate was **USD 5.26/month (USD 63.12/year)**. I distinguished historical usage costs from projected costs, identified Bedrock and CloudWatch as the main projected cost drivers, and documented sensitivity to chatbot usage, optimization recommendations, and resource cleanup guidance. The findings were handed over to the team for Workshop sections 5.7 and 5.7.1. Proposed optimizations were not claimed as implemented or as verified savings.
+
+This task helped me understand that an AI system must be evaluated not only for predictive quality but also for its operating costs, workload assumptions, and resource efficiency.
+
+**7. Responsibility, Independent Learning, and Teamwork**
 
 I am relatively outgoing and comfortable contributing ideas during discussions related to Modeling & Evaluation. Beyond research, I reviewed pull requests, provided feedback on the **Proposal, ADRs, and API contract**, and helped align technical documentation with the evaluation results.
 
@@ -75,10 +83,10 @@ Although I communicate proactively, I sometimes include too many conditions and 
 
 **2. Managing Time Across Multiple Responsibilities**
 
-At certain stages, I had to balance forecasting research, technical reviews, AWS labs, university coursework, and reporting. I would like to improve my prioritization, divide large assignments into smaller milestones, and allow more time for unexpected issues.
+At certain stages, I had to balance forecasting research, technical reviews, AWS labs, cost estimation, university coursework, and reporting. I would like to improve my prioritization, divide large assignments into smaller milestones, and allow more time for unexpected issues.
 
 ### Overall Reflection
 
-I rate my **overall performance as Fair**. I am satisfied that I contributed across several stages of CPAWS, from defining forecasting outputs and comparing models to evaluation design, Rolling Accuracy, and the official test2020 verification. At the same time, I learned that trustworthy results require valid data, reproducible procedures, and conclusions that do not go beyond the evidence.
+I rate my **overall performance as Fair**. I am satisfied that I contributed across several stages of CPAWS, from defining forecasting outputs and comparing models to evaluation design, Rolling Accuracy, the official test2020 verification, and the post-deployment cost estimate. At the same time, I learned that trustworthy results require valid data, reproducible procedures, and conclusions that do not go beyond the evidence.
 
-FCAJ also reinforced the importance of personal responsibility and teamwork in a multi-component AI system. I hope to improve my technical communication and time management as I pursue further research in **AI and Robotic AI**.
+Preparing the cost report also showed me the importance of clearly separating measured usage from assumptions and estimated costs. FCAJ reinforced the importance of personal responsibility and teamwork in a multi-component AI system. I hope to improve my technical communication and time management as I pursue further research in **AI and Robotic AI**.
