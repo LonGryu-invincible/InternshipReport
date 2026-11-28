@@ -6,7 +6,7 @@ chapter: false
 pre: " <b> 6. </b> "
 ---
 
-Trong chương trình **First Cloud AI Journey (FCAJ)**, em tham gia dự án **CPAWS — hệ thống dự báo hàng hóa trên AWS** với vai trò chính là **Modeling & Evaluation**. Công việc của em không chỉ là kiểm tra kết quả cuối cùng mà còn trải dài từ góp ý cách đặt bài toán, nghiên cứu mô hình đến xây dựng quy trình đánh giá và kiểm chứng bằng chứng thực nghiệm.
+Trong chương trình **First Cloud AI Journey (FCAJ)**, em tham gia dự án **CPAWS — hệ thống dự báo hàng hóa trên AWS** với vai trò chính là **Modeling & Evaluation**, đồng thời đảm nhiệm thêm phần **Cost Estimation & Optimization (Dự toán và tối ưu chi phí)** trong giai đoạn hoàn thiện báo cáo. Công việc của em không chỉ là kiểm tra kết quả cuối cùng mà còn trải dài từ góp ý cách đặt bài toán, nghiên cứu mô hình đến xây dựng quy trình đánh giá và kiểm chứng bằng chứng thực nghiệm.
 
 Ngay từ giai đoạn xác định yêu cầu, em đã **đề xuất dự báo lợi suất log (log return) thay vì trực tiếp dự báo mức giá tuyệt đối**. Em cũng tham gia rà soát cách biểu diễn đầu ra cho 1–7 phiên giao dịch, các phân vị của phân phối dự báo và xác suất tăng giá, bảo đảm chúng có ý nghĩa nhất quán khi được hiển thị và đánh giá. Đây là đóng góp về định nghĩa bài toán thuộc phạm vi chuyên môn của em, không có nghĩa em phụ trách định hướng hay triển khai toàn bộ dự án.
 
@@ -61,7 +61,15 @@ Em tham gia review kế hoạch và runner **test2020**, bao gồm cách chọn 
 
 Khi tổng hợp kết quả cho báo cáo, em chú trọng phân biệt những kết quả có ý nghĩa thống kê với các trường hợp chưa đủ bằng chứng, đồng thời trình bày giới hạn của dữ liệu và phương pháp. Việc đánh giá này chỉ phục vụ kiểm chứng/báo cáo, không được sử dụng để tối ưu lại mô hình hoặc tự động thay champion.
 
-**6. Trách nhiệm, tự học và phối hợp nhóm**
+**6. Dự toán và phân tích tối ưu chi phí AWS**
+
+Trong giai đoạn 23–25/11/2026, em trực tiếp thực hiện dự toán chi phí sau triển khai và hoàn thiện báo cáo Cost Estimation & Optimization song ngữ cho CPAWS. Em rà soát dữ liệu sử dụng từ AWS Console, Cost Explorer và CloudWatch, chuyển đổi số liệu về request, lưu trữ, truyền dữ liệu và token của mô hình thành giả định tải theo tháng, sau đó sử dụng AWS Pricing Calculator để lập dự toán cho **13 nhóm dịch vụ**, trong đó có **34 dòng usage riêng biệt** trên Billing Console Calculator.
+
+Với môi trường hiện hữu tại Singapore và kịch bản production lưu lượng thấp, mức dự toán hiển thị là **5,26 USD/tháng (63,12 USD/năm)**. Em phân biệt chi phí sử dụng trong quá khứ với chi phí dự toán, xác định Bedrock và CloudWatch là hai nguồn chi phí dự kiến chính, đồng thời trình bày phân tích độ nhạy theo lưu lượng chatbot, đề xuất tối ưu và hướng dẫn dọn dẹp tài nguyên. Kết quả được bàn giao cho nhóm để tích hợp vào mục 5.7 và 5.7.1 của Workshop. Em không ghi nhận các đề xuất chưa triển khai là khoản tiết kiệm đã được kiểm chứng.
+
+Công việc này giúp em hiểu rằng một hệ thống AI không chỉ cần được đánh giá về chất lượng dự báo mà còn phải xem xét chi phí vận hành, giả định tải và hiệu quả sử dụng tài nguyên.
+
+**7. Trách nhiệm, tự học và phối hợp nhóm**
 
 Em khá hướng ngoại, thoải mái trao đổi và thường chủ động nêu quan điểm khi thảo luận những vấn đề thuộc Modeling & Evaluation. Bên cạnh công việc nghiên cứu, em cũng review Pull Request, góp ý **Proposal, ADR, API contract** và hỗ trợ đối chiếu tài liệu báo cáo với kết quả kỹ thuật.
 
@@ -75,10 +83,10 @@ Mặc dù chủ động giao tiếp, đôi khi em trình bày quá nhiều đi�
 
 **2. Quản lý thời gian khi có nhiều nhiệm vụ**
 
-Có những giai đoạn em phải cân đối giữa nghiên cứu mô hình, review kỹ thuật, bài thực hành AWS, việc học tại trường và báo cáo. Em nhận thấy cần ưu tiên công việc tốt hơn, chia nhiệm vụ thành các mốc nhỏ và chủ động dự phòng thời gian cho vấn đề phát sinh.
+Có những giai đoạn em phải cân đối giữa nghiên cứu mô hình, review kỹ thuật, bài thực hành AWS, dự toán chi phí, việc học tại trường và báo cáo. Em nhận thấy cần ưu tiên công việc tốt hơn, chia nhiệm vụ thành các mốc nhỏ và chủ động dự phòng thời gian cho vấn đề phát sinh.
 
 ### Suy ngẫm
 
-Em tự đánh giá **tổng thể ở mức Khá**. Em hài lòng vì đã đóng góp vào nhiều giai đoạn của CPAWS, từ định nghĩa đầu ra dự báo, nghiên cứu và so sánh mô hình đến thiết kế quy trình đánh giá, Rolling Accuracy và kiểm chứng official test2020. Đồng thời, em hiểu rằng các kết quả có giá trị phải đi kèm dữ liệu hợp lệ, quy trình tái lập được và những kết luận không vượt quá bằng chứng.
+Em tự đánh giá **tổng thể ở mức Khá**. Em hài lòng vì đã đóng góp vào nhiều giai đoạn của CPAWS, từ định nghĩa đầu ra dự báo, nghiên cứu và so sánh mô hình đến thiết kế quy trình đánh giá, Rolling Accuracy, kiểm chứng official test2020 và lập dự toán chi phí sau triển khai. Đồng thời, em hiểu rằng các kết quả có giá trị phải đi kèm dữ liệu hợp lệ, quy trình tái lập được và những kết luận không vượt quá bằng chứng.
 
-FCAJ cũng giúp em nhận ra tầm quan trọng của trách nhiệm cá nhân và phối hợp nhóm trong một hệ thống AI có nhiều thành phần. Em muốn tiếp tục cải thiện cách trình bày vấn đề và quản lý thời gian để chuẩn bị cho định hướng nghiên cứu **AI và Robotic AI** trong tương lai.
+Việc lập báo cáo chi phí cũng giúp em nhận thức rõ tầm quan trọng của việc tách biệt số liệu sử dụng đo được, giả định và chi phí dự toán. FCAJ giúp em nhận ra tầm quan trọng của trách nhiệm cá nhân và phối hợp nhóm trong một hệ thống AI có nhiều thành phần. Em muốn tiếp tục cải thiện cách trình bày vấn đề và quản lý thời gian để chuẩn bị cho định hướng nghiên cứu **AI và Robotic AI** trong tương lai.
