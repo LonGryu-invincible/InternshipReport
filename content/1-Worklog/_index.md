@@ -8,7 +8,7 @@ pre: " <b> 1. </b> "
 
 **On this page**, I will provide a detailed overview of my Worklog. It covers my internship journey up to the Workshop submission date, including how I approached and completed assigned tasks, the duration of the program, and the practical experience and skills I gained throughout the internship:
 
-**Week 1:** [Access Management (IAM), VPC & Site-to-Site VPN](1.1-week1/)
+**Week 1:** [AWS Fundamentals, Account Setup, IAM & VPC/VPN](1.1-week1/)
 
 **Week 2:** [Hybrid DNS, VPC Peering & Compute Services (EC2)](1.2-week2/)
 
