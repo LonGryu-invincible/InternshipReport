@@ -7,10 +7,10 @@ pre: " <b> 1.2. </b> "
 ---
 
 ### MỤC TIÊU TRONG WEEK 2:
-- Nắm vững kỹ năng xử lý sự cố (troubleshooting) VPN và mở rộng kết nối Site-to-Site với Transit Gateway.
+- Củng cố kỹ năng xử lý sự cố (troubleshooting) VPN và mở rộng kết nối Site-to-Site với Transit Gateway.
 - Hiểu và triển khai mô hình Hybrid DNS sử dụng Route 53 Resolver để phân giải tên miền giữa On-premise và AWS.
-- Làm chủ các mô hình kết nối đa VPC (VPC Peering và Transit Gateway).
-- Hệ thống hóa kiến thức chuyên sâu về dịch vụ Compute (EC2, AMI, EBS, Auto-scaling).
+- Thực hành các mô hình kết nối đa VPC (VPC Peering và Transit Gateway).
+- Hệ thống hóa kiến thức chuyên sâu về dịch vụ Compute (EC2, AMI, EBS, Auto Scaling).
 - Tham gia trao đổi ý tưởng CPAWS ban đầu trong tuần.
 ### CÁC ĐẦU VIỆC CỦA WEEK 2:
 
@@ -24,9 +24,9 @@ pre: " <b> 1.2. </b> "
 
 ### THÀNH TỰU ĐẠT ĐƯỢC TRONG WEEK 2:
 
-1. Hoàn thành Lab 5 nâng cao: Biết cách Troubleshooting VPN và cấu hình VPN kết hợp với Transit Gateway (StrongSwan).
-2. Triển khai thành công kiến trúc Hybrid DNS (Lab 6), cấu hình Inbound/Outbound Endpoints để phân giải tên miền 2 chiều (AWS <-> On-prem).
+1. Hoàn thành Lab 5 nâng cao: Biết cách Troubleshooting VPN và cấu hình VPN kết hợp với Transit Gateway (strongSwan).
+2. Triển khai thành công kiến trúc Hybrid DNS (Lab 6), cấu hình Inbound/Outbound Endpoints để phân giải tên miền 2 chiều (AWS ↔ on-premises).
 3. Xây dựng và kết nối thành công các mạng VPC thông qua VPC Peering (Lab 7) và AWS Transit Gateway (Lab 8).
-4. Nắm vững lý thuyết Module 03 về Compute: Hiểu sâu về các loại EC2, các loại ổ cứng EBS, và cơ chế Auto-scaling để tối ưu hóa hiệu suất và chi phí.
-5. Tham gia thành lập nhóm CPAWS, tìm hiểu các ý tưởng ban đầu và các yêu cầu dữ liệu/đánh giá cho hướng dự báo vàng, bạc, dầu thô.
+4. Củng cố lý thuyết Module 03 về Compute: Hiểu sâu về các loại EC2, các loại ổ cứng EBS, và cơ chế Auto Scaling để tối ưu hóa hiệu suất và chi phí.
+5. Tham gia trao đổi ý tưởng ban đầu của nhóm CPAWS, tìm hiểu các ý tưởng ban đầu và các yêu cầu dữ liệu/đánh giá cho hướng dự báo vàng, bạc, dầu thô.
 
