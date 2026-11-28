@@ -16,10 +16,10 @@ Chatbot giúp người dùng đọc dự báo bằng tiếng Việt: hỏi về 
 #### Luồng `POST /chat`
 
 1. API Gateway kiểm tra ID token bằng Cognito authorizer. Người dùng được xác định bằng claim `sub`, không dùng email.
-2. Lambda `cpaws-dev-chat-api` (Python 3.12, 512 MB, timeout 28 giây) kiểm tra request: câu hỏi dài 1–500 ký tự, lịch sử hội thoại tối đa 6 lượt do client gửi lên. Server không lưu hội thoại.
+2. Lambda `cpaws-dev-chat-api` (Python 3.12, 512 MB, timeout 28 giây) kiểm tra request: câu hỏi dài 1–500 ký tự, lịch sử hội thoại tối đa 6 tin nhắn (3 cặp hỏi–đáp) do client gửi lên. Server không lưu hội thoại.
 3. **Kiểm tra hạn thời gian.** Lambda tính hạn chót từ thời điểm API Gateway nhận request (29 giây trừ 4 giây dự phòng). Nếu không còn đủ thời gian cho một lần gọi model thì trả `504` trước khi tính lượt.
-4. **Tính lượt hỏi** bằng một lần ghi DynamoDB có điều kiện vào bảng `chat-usage`. Giới hạn là 20 lượt/người/ngày và 100 lượt/ngày cho cả hệ thống; hết lượt thì trả `429`. Bảng chỉ lưu bộ đếm, không lưu câu hỏi.
-5. **Gọi Bedrock Converse** với system prompt `chatbot-haiku-v2`, hai tool, tối đa 3 vòng gọi tool.
+4. **Tính lượt hỏi** bằng một giao dịch DynamoDB (`TransactWriteItems`) gồm hai lệnh cập nhật có điều kiện trên bảng `chat-usage`. Giới hạn là 20 lượt/người/ngày và 100 lượt/ngày cho cả hệ thống; hết lượt thì trả `429`. Bộ đếm làm mới lúc 00:00 giờ Việt Nam, và web hiện số lượt còn lại dưới ô nhập. Bảng chỉ lưu bộ đếm, không lưu câu hỏi.
+5. **Gọi Bedrock Converse** với system prompt `chatbot-haiku-v2`, hai tool, tối đa 3 vòng gọi tool. Từ bản `v1.0.1`, Lambda gửi thêm một khối `system` thứ hai ghi ngày giờ hiện tại theo giờ Việt Nam (UTC+7).
 6. **Trả kết quả:**
    - câu trả lời dạng văn bản thuần;
    - `citations` (danh sách tin đã trích);
@@ -33,17 +33,21 @@ Chatbot giúp người dùng đọc dự báo bằng tiếng Việt: hỏi về 
 |---|---|
 | Model | Claude Haiku 4.5 qua inference profile **global** (cross-Region inference), gọi từ `ap-southeast-1` |
 | API | Converse (không stream), `temperature` 0, `maxTokens` 1500, `toolChoice: auto` |
-| Quyền IAM | Chỉ `bedrock:InvokeModel` trên đúng ARN của inference profile và model; `dynamodb:Query` trên bảng `forecasts` |
+| Quyền IAM | `bedrock:InvokeModel` cho Claude Haiku 4.5 và Nova 2 Lite (Nova được cấp sẵn cho router nhưng chưa dùng), mỗi model 3 statement theo hướng dẫn global cross-Region inference: inference profile, model trong region và model global, hai statement sau có điều kiện `bedrock:InferenceProfileArn`; `dynamodb:Query` trên bảng `forecasts` và `news-labels`; `dynamodb:UpdateItem`, `dynamodb:GetItem` trên bảng `chat-usage` (bộ đếm lượt hỏi) |
 | Không dùng | Knowledge Bases, embedding, fine-tune. Tin tức đọc trực tiếp từ dữ liệu đã gắn nhãn |
 
 Dùng inference profile global thì Bedrock có thể xử lý request ở region khác. Nhóm ghi rõ trong ADR-0004 rằng không cam kết mọi request được xử lý hoàn toàn trong Singapore.
+
+#### Chatbot biết ngày hiện tại (v1.0.1)
+
+Tới bản `v1.0.0`, model không biết hôm nay là ngày nào. Khi hỏi thử ngày 23/11/2026, câu "từ 9/11 đến 20/11 năm nay" bị hiểu là năm 2024, và "hôm nay" bị nhầm với ngày cơ sở của dự báo. Bản `v1.0.1` (PR #146) thêm khối `system` thứ hai, tạo lúc nhận request, ghi thứ, ngày và giờ theo UTC+7. Nội dung prompt `chatbot-haiku-v2` giữ nguyên vì đã khóa sau benchmark. Thay đổi này có sau benchmark nên chỉ được kiểm bằng unit test và hỏi thử trên Production ngày 24/11/2026: câu "Hiện tại đang là năm bao nhiêu?" được trả đúng "thứ Ba, 24/11/2026", và câu về khoảng 9/11–20/11 tìm đúng tin năm 2026.
 
 #### Router: một kết quả âm có kiểm soát
 
 Thiết kế ban đầu (ADR-0004) chia câu hỏi làm hai nhánh. Câu đơn giản (chào hỏi, khái niệm) đi **Amazon Nova 2 Lite** để tiết kiệm. Câu cần số liệu đi **Claude Haiku 4.5** có tool. Router chọn nhánh theo luật, không gọi LLM. Router được thử như sau:
 
 - 9 luật được **khóa trước** khi đo.
-- Bộ 30 câu giữ riêng do người khác soạn; người viết luật không được xem trước.
+- Bộ 30 câu giữ riêng do Khải phụ trách, giữ ngoài repo; người viết luật không thấy trước khi khóa luật.
 - Ngưỡng chốt trước: độ chính xác ≥ 90%, tối đa 1 câu cần Haiku bị đưa nhầm sang Nova.
 - Chạy đúng một lần.
 
@@ -80,7 +84,7 @@ TOOLS = [{"toolSpec": {
 
 def ask(question: str, model_id: str, system_prompt: str, run_tool) -> str:
     messages = [{"role": "user", "content": [{"text": question}]}]
-    for _ in range(3):  # tối đa 3 vòng gọi tool
+    for round_ in range(4):  # tối đa 3 vòng gọi tool + 1 lần trả lời
         resp = bedrock.converse(
             modelId=model_id, system=[{"text": system_prompt}], messages=messages,
             toolConfig={"tools": TOOLS},
@@ -90,12 +94,14 @@ def ask(question: str, model_id: str, system_prompt: str, run_tool) -> str:
         messages.append(msg)
         if resp["stopReason"] != "tool_use":
             return "".join(b.get("text", "") for b in msg["content"])
+        if round_ == 3:
+            break
         # chạy từng tool model yêu cầu, gửi kết quả lại bằng toolResult
         results = [{"toolResult": {"toolUseId": b["toolUse"]["toolUseId"],
                                    "content": [{"json": run_tool(b["toolUse"]["name"], b["toolUse"]["input"])}]}}
                    for b in msg["content"] if "toolUse" in b]
         messages.append({"role": "user", "content": results})
-    return "Mình chưa trả lời được câu này, bạn thử hỏi ngắn gọn hơn nhé."
+    return "Mình chưa trả lời được câu này, bạn thử hỏi cụ thể hơn nhé."
 ```
 
 #### Lớp bảo vệ phía server
@@ -118,5 +124,27 @@ Nhóm **không bật Bedrock Guardrails** trong phạm vi đồ án (quyết đ�
 - Lượt chính thức chỉ chạy **một lần**; không sửa prompt rồi chấm lại trên cùng bộ câu.
 - Prompt v4 không đạt lần chạy chính thức ngày 11/11/2026. Vì vậy Lambda giữ prompt v2. Chi phí cả lượt benchmark khoảng 0,73 USD.
 
-<!-- ẢNH: khung chat trên web: một câu hỏi dự báo + một câu hỏi tin tức có trích nguồn (CHE con số giá) -->
-<!-- ẢNH: câu hỏi xin tư vấn mua/bán và câu trả lời từ chối -->
+#### Chatbot trên web
+
+![Hỏi dự báo](/images/5-Workshop/5.5-chat-forecast-news1.png)
+
+*Hỏi "Dự báo vàng 7 ngày tới thế nào?": chatbot trả khoảng 80% (−5,59% đến 5,45%), trung vị −0,18%, xác suất tăng 48%, ghi rõ chuỗi GLD và mốc thống kê 252 phiên. Mỗi câu trả lời có mã tra cứu để đối chiếu log.*
+
+![Hỏi tin tức](/images/5-Workshop/5.5-chat-forecast-news2.png)
+
+*Hỏi "Có tin gì mới của Fed không?": chatbot trả lời không tìm thấy tin Fed trong 7 ngày (17/11–24/11/2026), dù bộ tin có biên bản FOMC đăng ngày 18/11 (mức tác động 2). Đây là một lỗi bỏ sót, ghi ở mục "Hạn chế đã biết".*
+
+![Từ chối tư vấn](/images/5-Workshop/5.5-chat-refuse-advice.png)
+
+*Hỏi "có nên mua vàng không?": chatbot từ chối đưa lời khuyên đầu tư, chỉ nhắc lại số dự báo. Dưới ô nhập là số lượt còn lại (13/20) và giờ làm mới lượt hỏi.*
+
+#### Hạn chế đã biết
+
+Các lỗi dưới đây gặp khi nhóm hỏi thử trên Production sau bản `v1.0.1`. Sau ngày đóng băng tính năng 22/11/2026, nhóm không sửa prompt hay code mà ghi lại ở đây (năm lỗi đầu cũng có trong `docs/defense/chatbot.md`, mục 8); hướng sửa được gom ở issue #84 để làm sau đồ án.
+
+- **Không trả lời được câu hỏi về biến động đã qua**, ví dụ "vì sao giá vàng giảm từ 9/11 đến 20/11". Chatbot chưa có tool lịch sử giá, nên chuyển sang nói về dự báo các phiên tới và có lúc nêu một tin Fed như thể đó là nguyên nhân của mức giảm.
+- **Gọi tên xu hướng khi xác suất tăng quanh 50%:** với xác suất tăng 47–51%, chatbot có lúc viết "xu hướng giảm", trong khi nên nói là chưa rõ xu hướng. Web chỉ gắn nhãn hướng khi xác suất tăng từ 60% trở lên hoặc từ 40% trở xuống.
+- **Ngày đăng tin lệch một ngày:** câu trả lời ghi ngày theo UTC của tin (ví dụ biên bản FOMC đăng 18/11), còn thẻ Nguồn trên web đổi sang giờ Việt Nam (19/11).
+- **Diễn giải khoảng dự báo:** có câu gọi q10/q90 là mức "giảm tối đa/tăng tối đa", trong khi đó chỉ là biên của khoảng 80%.
+- **Tự thêm nhận định chung** không có trong tin, ví dụ "lãi suất cao làm vàng kém hấp dẫn vì chi phí cơ hội tăng".
+- **Bỏ sót tin đã có:** câu hỏi không nêu tài sản như "Có tin gì mới của Fed không?" có lúc nhận câu trả lời "không tìm thấy", dù biên bản FOMC ngày 18/11 nằm trong khoảng 7 ngày và đạt mức tác động 2. Khi hỏi rõ tài sản và khoảng ngày, chatbot đã trả đúng tin này (hỏi thử ngày 23–24/11).

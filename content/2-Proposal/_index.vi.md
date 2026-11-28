@@ -13,21 +13,21 @@ pre: " <b> 2. </b> "
 
 ## 1. Tóm tắt chung
 
-Chúng tôi là nhóm **CPAWS** gồm 5 sinh viên thực tập trong chương trình AWS First Cloud AI Journey (FCAJ). Nhóm xây dựng một nền tảng web dự đoán giá **vàng, bạc, dầu Brent và dầu WTI** trong **1–7 ngày tới**, hiển thị theo cả **USD và VND**, kèm **chatbot tiếng Việt trên Amazon Bedrock** giải thích vì sao giá có thể tăng hay giảm dựa trên số liệu của mô hình và tin tức có trích nguồn.
+Chúng tôi là nhóm **CPAWS** gồm 5 sinh viên thực tập trong chương trình AWS First Cloud AI Journey (AWS-FCAJ). Nhóm xây dựng một nền tảng web dự đoán giá **vàng, bạc, dầu Brent và dầu WTI** trong **1-7 ngày tới**, hiển thị theo hai đơn vị tiền tệ **USD và VND**, kèm **chatbot** giải thích vì sao giá có thể tăng hay giảm dựa trên số liệu của mô hình và tin tức có trích nguồn.
 
 | Thành viên | Vai trò |
 |---|---|
-| Trịnh Tiến Khải | Research Lead – mô hình dự báo chính, hàm tạo đặc trưng, code Lambda dự đoán |
-| Nguyễn Tiến Long | Modeling & Evaluation – mốc so sánh, DLinear, đánh giá độ chính xác |
-| Phan Tấn Phước | News & Chatbot – gắn nhãn tin tức, chatbot |
-| Châu Trần Mạnh Tiến | Platform – CDK, Lambda, Step Functions, web |
-| Huỳnh Ngọc Tuấn | Data & Security Lead – IAM, API Gateway, Cognito, DynamoDB, chi phí |
+| Trịnh Tiến Khải | Research Lead - mô hình dự báo chính, hàm tạo đặc trưng, code Lambda dự đoán |
+| Nguyễn Tiến Long | Modeling & Evaluation - mốc so sánh, DLinear, đánh giá độ chính xác |
+| Phan Tấn Phước | News & Chatbot - gắn nhãn tin tức, chatbot |
+| Châu Trần Mạnh Tiến | Platform - CDK, Lambda, Step Functions, web |
+| Huỳnh Ngọc Tuấn | Data & Security Lead - IAM, API Gateway, Cognito, DynamoDB, chi phí |
 
 Hệ thống chạy hoàn toàn trên AWS theo kiến trúc **serverless chạy theo lịch**: thu thập dữ liệu hằng ngày, dự đoán theo lô và lưu sẵn kết quả, nên chi phí thấp và nằm trong khoản **khoảng 200 USD credit AWS** của nhóm. Mục tiêu là một **sản phẩm chạy thật**, không phải bài nghiên cứu.
 
 ---
 
-## 2. Phát biểu Vấn đề
+## 2. Về vấn đề giải quyết:
 
 ### Vấn đề là gì?
 
@@ -39,7 +39,7 @@ Giá vàng, bạc và dầu biến động mạnh khi có sự kiện lớn như
 
 ### Giải pháp
 
-CPAWS dự đoán **phân phối tỷ suất sinh lợi (log return) 1–7 phiên tới** dưới dạng 7 phân vị (5%, 10%, 25%, 50%, 75%, 90%, 95%), rồi quy đổi thành khoảng giá và xác suất tăng để hiển thị. Nhóm không dự đoán thẳng mức giá: giá ngày mai gần như bằng giá hôm nay, nên một mô hình chỉ lặp lại giá hôm nay cũng trông như "chính xác 99%". Dự đoán return buộc mô hình học sự thay đổi thật và cho phép đo độ chính xác trung thực.
+CPAWS dự đoán **phân phối tỷ suất sinh lợi (log return) 1-7 phiên tới** dưới dạng 7 phân vị (5%, 10%, 25%, 50%, 75%, 90%, 95%), rồi quy đổi thành khoảng giá và xác suất tăng để hiển thị. Nhóm không dự đoán thẳng mức giá: giá ngày mai gần như bằng giá hôm nay, nên một mô hình chỉ lặp lại giá hôm nay cũng trông như "chính xác 99%". Dự đoán return buộc mô hình học sự thay đổi thật và cho phép đo độ chính xác trung thực.
 
 Chatbot trên Amazon Bedrock chỉ lấy con số từ hệ thống qua **tool use**, mọi lý do đều có trích nguồn, và không đưa ra lời khuyên đầu tư.
 
@@ -54,11 +54,11 @@ Chatbot trên Amazon Bedrock chỉ lấy con số từ hệ thống qua **tool u
 - **Con số có kiểm chứng:** khoảng dự đoán và độ chính xác lịch sử được công khai, thay vì nhận định định tính.
 - **Giải thích có nguồn:** chatbot gắn mỗi lý do với tin tức hoặc thông cáo chính thức.
 - **Gần gũi người dùng Việt:** quy đổi sang VND theo tỷ giá.
-- **Chi phí thấp:** không có tài nguyên chạy 24/7, ước tính 15–35 USD/tháng.
+- **Chi phí thấp:** không có tài nguyên chạy 24/7, ước tính 15-35 USD/tháng.
 
 ---
 
-## 3. Kiến trúc Giải pháp
+## 3. Kiến trúc giải pháp
 
 ### Tổng quan
 
@@ -80,20 +80,9 @@ Hệ thống chạy theo lịch: thu thập hằng ngày, dự đoán theo lô r
 
 ### Luồng hoạt động
 
-- **Hằng ngày:** EventBridge Scheduler kích hoạt Lambda thu thập giá và tỷ giá vào S3; khi xong, Lambda dự đoán đọc dữ liệu sạch, chạy mô hình champion và ghi 7 phân vị cho h = 1–7 vào DynamoDB.
+- **Hằng ngày:** EventBridge Scheduler kích hoạt Lambda thu thập giá và tỷ giá vào S3; khi xong, Lambda dự đoán đọc dữ liệu sạch, chạy mô hình champion và ghi 7 phân vị cho h = 1-7 vào DynamoDB.
 - **Hằng tuần:** huấn luyện mô hình challenger, backtest trên các tuần gần nhất và chỉ thay champion khi challenger tốt hơn.
 - **Khi người dùng hỏi:** chatbot gọi tool để lấy dự đoán, độ chính xác và tin tức liên quan, rồi trả lời kèm trích nguồn.
-
-### Đánh giá theo AWS Well-Architected
-
-| Trụ cột | Vấn đề cần giải quyết | Giải pháp trong CPAWS |
-|---|---|---|
-| **Operational Excellence** | Vận hành hằng ngày không cần thao tác tay, dễ phát hiện lỗi, thay đổi có kiểm soát | Hạ tầng viết bằng AWS CDK; CI chạy test (pytest, ruff, test hạ tầng) trên mỗi Pull Request; mọi thay đổi cần review, thay đổi IAM/hạ tầng cần người phụ trách bảo mật duyệt; CloudWatch Logs và Alarm cho Lambda; quyết định kiến trúc ghi bằng ADR; image tag theo commit SHA để truy vết |
-| **Security** | Bảo vệ dữ liệu và API key, chống lạm dụng API, chống prompt injection | IAM user trong group, đăng nhập phiên ngắn hạn, không có access key dài hạn; mỗi Lambda một IAM role quyền tối thiểu; API key lưu trong SSM Parameter Store (SecureString); API Gateway dùng Cognito authorizer, không cho tự đăng ký; tin tức được đánh dấu là dữ liệu không tin cậy trong prompt, Guardrails giới hạn phạm vi chatbot; repo public không chứa key hay Account ID đầy đủ |
-| **Reliability** | Một nguồn dữ liệu lỗi hay thiếu phiên không được làm sai toàn hệ thống | Tách ingest và predict, nối bằng Lambda Destinations cho cả OnSuccess và OnFailure; tài sản lỗi được bỏ qua, các tài sản còn lại vẫn dự đoán; predict không lùi về ngày cũ khi thiếu phiên mới nhất; ingest tải lại 5 phiên gần nhất và ghi đè theo khóa nên chạy lại an toàn; S3 là bản dữ liệu chính, có thể dựng lại bảng DynamoDB từ S3 |
-| **Performance Efficiency** | Trả kết quả nhanh cho web và chatbot với chi phí thấp | Dự đoán tính sẵn theo lô; DynamoDB thiết kế theo truy vấn (PK `asset`, SK `base_date`), đọc bản mới nhất bằng một `Query` với `Limit=1`; suy luận bằng NumPy trong Lambda container thay vì PyTorch; dịch vụ serverless tự mở rộng theo lượng truy cập |
-| **Cost Optimization** | Chạy cả dự án trong khoảng 200 USD credit | Không có endpoint 24/7, NAT Gateway hay OpenSearch Serverless; DynamoDB on-demand; định tuyến chatbot sang model nhỏ cho câu đơn giản và giới hạn `max_tokens`; Training Job theo lịch, tự tắt; AWS Budgets cảnh báo ở 50 USD/tháng; ước tính chi phí trước khi thêm tài nguyên |
-| **Sustainability** | (không chấm) | Chỉ chạy tài nguyên khi cần; region gần người dùng |
 
 ---
 
@@ -113,35 +102,35 @@ Tín hiệu ngoài giá gồm chỉ số rủi ro địa chính trị (GPR), ch�
 
 | Giai đoạn | Thời gian |
 |---|---|
-| Khởi động CEEMDAN | 2012–2013 |
-| Huấn luyện | 2014–2018 |
+| Khởi động CEEMDAN | 2012-2013 |
+| Huấn luyện | 2014-2018 |
 | Validation (chọn tham số) | 2019 |
-| Kiểm tra (chỉ chạy một lần sau khi khóa tham số) | 2020 → nay |
+| Kiểm tra (chỉ chạy một lần sau khi khóa tham số) | 2020 -> nay |
 
 - **Chỉ số chính:** pinball skill so với mốc phân vị 252 phiên.
 - **Hiệu chỉnh khoảng dự đoán:** tỷ lệ giá thực rơi vào khoảng 80%, độ rộng khoảng, interval score.
 - **Xác suất tăng:** Brier skill.
-- **So sánh mô hình:** kiểm định Diebold–Mariano.
+- **So sánh mô hình:** kiểm định Diebold-Mariano.
 - **Không dùng** MAPE hay sai số trên mức giá vì dễ tạo độ chính xác ảo.
 
 ### Yêu cầu Kỹ thuật
 
 - **Ngôn ngữ và thư viện:** Python (pandas, NumPy, PyTorch cho huấn luyện, NumPy cho suy luận), React + TypeScript + Vite cho web.
 - **Hạ tầng:** AWS CDK (Python), region ap-southeast-1.
-- **Quy trình:** GitHub, mỗi việc một nhánh, Pull Request cần ít nhất 1 approval và CI xanh; thay đổi IAM/hạ tầng cần thành viên phụ trách bảo mật review.
+- **Quy trình:** Làm việc và lưu trữ code và báo cáo trên GitHub; thay đổi IAM/hạ tầng hoặc chatbot hoặc mô hình dự đoán cần thành viên phụ trách từng phần review.
 
 ---
 
-## 5. Lịch trình & Cột mốc
+## 5. Lịch trình xây dựng kiến trúc
 
 | Giai đoạn | Hoạt động |
 |---|---|
-| Trước xây dựng (09–10/2026) | Học nền tảng AWS, chọn đề tài, viết proposal, chuẩn bị dữ liệu giá từ 2012 |
-| Tuần 1–2 (12–25/10) | Kiến trúc, dữ liệu sạch, target và cách đánh giá, pipeline thu thập |
-| Tuần 3–4 (26/10–08/11) | Mốc so sánh, DLinear MVP, Lambda dự đoán, API và chatbot bản đầu |
-| Tuần 5–6 (09–22/11) | Luồng hằng ngày tự động, tín hiệu tin tức, đánh giá; đóng băng tính năng 22/11 |
-| Tuần 7 (23–29/11) | Ổn định hệ thống, báo cáo cuối kỳ, tổng duyệt |
-| Cuối 11 – đầu 12/2026 | Trình bày trước hội đồng thực tập FCAJ-AWS |
+| Trước xây dựng (09-10/2026) | Học nền tảng AWS, chọn đề tài, viết proposal, chuẩn bị dữ liệu giá từ 2012 |
+| Tuần 1-2 (12-25/10) | Kiến trúc, dữ liệu sạch, target và cách đánh giá, pipeline thu thập |
+| Tuần 3-4 (26/10-08/11) | Mốc so sánh, DLinear MVP, Lambda dự đoán, API và chatbot bản đầu |
+| Tuần 5-6 (09-22/11) | Luồng hằng ngày tự động, tín hiệu tin tức, đánh giá; đóng băng tính năng 22/11 |
+| Tuần 7 (23-29/11) | Ổn định hệ thống, báo cáo cuối kỳ, kiểm tra đánh giá toàn bộ hệ thống |
+| Cuối 11 - đầu 12/2026 | Nộp kiến trúc hệ thống và gửi video demo cho FCAJ |
 
 ---
 
@@ -152,11 +141,11 @@ Tín hiệu ngoài giá gồm chỉ số rủi ro địa chính trị (GPR), ch�
 | Dịch vụ | Ước tính/tháng |
 |---|---|
 | Lambda, EventBridge Scheduler, Step Functions | < 2 USD |
-| S3, DynamoDB (on-demand), ECR | 1–3 USD |
-| SageMaker AI Training Job (theo lịch, tắt sau khi chạy) | 3–10 USD |
-| Amazon Bedrock (chatbot, gắn nhãn tin) | 5–15 USD |
-| API Gateway, Cognito, Amplify Hosting, CloudWatch | 2–5 USD |
-| **Tổng** | **khoảng 15–35 USD/tháng** |
+| S3, DynamoDB (on-demand), ECR | 1-3 USD |
+| SageMaker AI Training Job (theo lịch, tắt sau khi chạy) | 3-10 USD |
+| Amazon Bedrock (chatbot, gắn nhãn tin) | 5-15 USD |
+| API Gateway, Cognito, Amplify Hosting, CloudWatch | 2-5 USD |
+| **Tổng** | **khoảng 15-35 USD/tháng** |
 
 ### Biện pháp Tối ưu hóa Chi phí
 

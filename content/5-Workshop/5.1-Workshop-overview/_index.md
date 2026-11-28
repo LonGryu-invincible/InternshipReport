@@ -5,6 +5,16 @@ weight: 1
 chapter: false
 pre: " <b> 5.1. </b> "
 ---
+#### Team members
+
+| Full name | Student ID | Email |
+|---|---|---|
+| Trịnh Tiến Khải | SE196461 | khaitrinh2005@gmail.com |
+| Nguyễn Tiến Long | SE200961 | longtow41@gmail.com |
+| Châu Trần Mạnh Tiến | SE201413 | chautranmanhtien@gmail.com |
+| Huỳnh Ngọc Tuấn | SE196586 | hngtuan2kar5@gmail.com |
+| Phan Tấn Phước | SE201023 | phanphuoc9113@gmail.com |
+
 #### The problem
 
 Gold, silver and crude oil prices move sharply around major events. Ordinary users face three difficulties:
@@ -29,13 +39,13 @@ The model currently published (`baseline-q252`) is a **252-session statistical b
 
 ![CPAWS current architecture](/images/5-Workshop/CPAWS-architecture-current.png)
 
-*Diagram drawn by the CPAWS team in draw.io (layout revised by Khải on 17/11/2026), state as of 13/11/2026. Every component on the diagram is deployed and running.*
+*Diagram drawn by the CPAWS team in draw.io (layout revised by Khải on 17/11/2026). Every component on the diagram is deployed and running.*
 
 The system has three flows:
 
 1. **Daily ingest and forecast** (19:15 Vietnam time, Tuesday–Saturday). EventBridge Scheduler invokes the `ingest` Lambda, which downloads prices and writes a snapshot to S3. When ingest finishes, whether it succeeds or fails, Lambda Destinations invokes the `predict` Lambda. Predict computes the forecast for each asset and writes it to DynamoDB `cpaws-dev-forecasts`. Each published record is written exactly once and never overwritten.
 2. **Reliability measurement** (20:45 Vietnam time). The `accuracy-job` Lambda compares past forecasts with the realized prices now known, then writes the results to table `cpaws-dev-accuracy`.
-3. **User-facing services.** A React web app on Amplify Hosting signs in with Cognito and calls the REST API (API Gateway + Cognito authorizer) to get forecasts (`/forecasts`), reliability (`/accuracy`) and to ask the chatbot (`/chat`). The chat Lambda calls Claude Haiku 4.5 on Bedrock with two tools, `get_forecast` and `get_news`.
+3. **User-facing services.** A React web app on Amplify Hosting signs in with Cognito and calls the REST API (API Gateway + Cognito authorizer) to get forecasts (`/forecasts`), reliability (`/accuracy/{asset}`) and to ask the chatbot (`/chat`). The chat Lambda calls Claude Haiku 4.5 on Bedrock with two tools, `get_forecast` and `get_news`.
 
 Operations run alongside these flows:
 - CloudWatch Logs, metric filters and 6 alarms that send email through Amazon SNS;
@@ -49,11 +59,11 @@ Operations run alongside these flows:
 |---|---|
 | `CpawsData` | S3 `cpaws-dev-lake`, ECR `cpaws-dev-ingest` and `cpaws-dev-predict`, Lambda `ingest`, `predict`, `accuracy-job`, two EventBridge Scheduler schedules |
 | `CpawsServing` | DynamoDB `forecasts`, `news-labels`, `chat-usage`, `accuracy` (on-demand) |
-| `CpawsAuth` | Cognito User Pool, self sign-up disabled |
+| `CpawsAuth` | Cognito User Pool with email verification; self sign-up open temporarily during grading (closes by 10/12/2026 at the latest, ADR-0014) |
 | `CpawsApi` | REST API stage `dev`; Lambda `forecasts-api`, `accuracy-api`, `chat-api` |
 | `CpawsOps` | SNS alarm topic, 6 CloudWatch alarms |
 
-Amplify Hosting, the SSM parameter holding the API key and AWS Budgets are created outside CDK (see [5.4](../5.4-infrastructure/)).
+Amplify Hosting, the SSM parameter holding the API key and AWS Budgets are created outside CDK (see [5.2](../5.2-prerequiste/) and [5.4.3](../5.4-infrastructure/5.4.3-api-cognito/)).
 
 #### Compared with the proposal
 
@@ -63,11 +73,12 @@ During the project the architecture was simplified relative to the [proposal](..
 |---|---|---|
 | Step Functions and SageMaker AI for weekly retraining | Two Lambdas chained by a destination, no retraining | The 252-session baseline needs no model artifact; ML models did not beat it (ADR-0011, ADR-0012) |
 | Secrets Manager | SSM Parameter Store `SecureString` | Only one key, no automatic rotation needed; cost close to zero |
-| News labelling with Bedrock (Nova 2 Lite) | 2–3 Fed/EIA releases labelled by hand each week | The check on 49 real releases missed its thresholds (ADR-0013) |
+| News labelling with Bedrock (Nova 2 Lite) | Fed/EIA releases were labelled by hand only during development; the product is now frozen, so no more are added | The check on 49 real releases missed its thresholds (ADR-0013) |
 | Router choosing between Nova and Haiku | Every question goes to Claude Haiku 4.5 | The router missed its threshold on a held-out question set (section [5.5](../5.5-chatbot/)) |
 | Bedrock Guardrails, Knowledge Bases | Not enabled | Controlled with prompt rules, tools and server-side checks (decision of 11/11/2026) |
 
 #### Product demo
 
-- Demo video: [LINK TO BE ADDED]
-- Production (Amplify Hosting): [LINK TO BE ADDED]. The site requires sign-in; a trial account for graders is sent with the submission and is not written on this page.
+- Production (Amplify Hosting): [https://dev.d2qw1ouvpqt0l9.amplifyapp.com](https://dev.d2qw1ouvpqt0l9.amplifyapp.com). The landing page is public; forecasts, accuracy, the reading guide and the chatbot require an account. Graders create their own account with **Tạo tài khoản** (Create account, verified by email). Self sign-up is open only during grading and closes by 10/12/2026 at the latest.
+- Demo video: [https://youtu.be/useqd8Wokqw](https://youtu.be/useqd8Wokqw)
+- Source code: [CPAWS-AWS-FCAJ/CPAWS-commodity-forecasting](https://github.com/CPAWS-AWS-FCAJ/CPAWS-commodity-forecasting), branch `production` (tag `v1.0.1`).
